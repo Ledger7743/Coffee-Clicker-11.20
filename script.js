@@ -6,10 +6,10 @@ const data = window.data;
 
 /***Before we can begin manipulating the DOM we need to gain access to two DOM Nodes***/
 // 1. Declare a variable bigCoffee that holds reference to the element with id 'big_coffee'.
-// your code here
+const bigCoffee = document.getElementById('big_coffee');
 
 // 2. Declare a variable producerContainer that holds reference to the element with id 'producer_container'.
-// your code here
+const producerContainer = document.getElementById('producer_container');
 
 /***Don't worry about the specifics of the condition in this if statement for now.
  * Just follow the instructions in it to ensure the application has base functionality.
@@ -21,11 +21,15 @@ if (typeof process === 'undefined') {
 
   /* 1. Add a 'click' event listener to the bigCoffee element(giant coffee emoji) you referenced above.
    * It should call the clickCoffee function below and be passed the global data object.*/
-  // your code here
+  bigCoffee.addEventListener ('click', () => clickCoffee(data));
 
   /* 2. Add a 'click' event listener to the producerContainer(Coffee Producers panel) you referenced above.
    * It should call the buyButtonClick function below and be passed the browser event and global data object.*/
+  producerContainer.addEventListener('click', (event) => buyButtonClick(event, data));
+ 
+  //function buyButtonClick(event, data) {
   // your code here
+  //}
 
   // You don't need to edit this line of code. It calls the tick function passing in the data object every 1000ms or 1s.
   setInterval(() => tick(data), 1000);
@@ -36,29 +40,74 @@ if (typeof process === 'undefined') {
 /**************
  *   SLICE 1
  **************/
+ const coffeeCounter = document.getElementById('coffee_counter')
+
 
 function updateCoffeeView(coffeeQty) {
-  // your code here
-}
+    //  constant variable (coffeeCounter is equal to the ID 'coffee_counter')
+      const coffeeCounter = document.getElementById('coffee_counter');
+    
+   // variable coffeecounter.(all child nodes are removed and replaced by only one new text node) string = coffeeqty (the number of coffees)   
+     
+    coffeeCounter.innerText =coffeeQty;
+    //console.log("XQQQQQQQ" , coffeeQty)
+     
+  }
+
 
 function clickCoffee(data) {
-  // your code here
+//variable before ++ = returns that now
+//variable after ++ = returns that later 
+  let newQty =data.coffee +=1;
+  return updateCoffeeView(newQty);
+
 }
 
 /**************
  *   SLICE 2
  **************/
 
+// Reguler for loop solution that works with arrays
 function unlockProducers(producers, coffeeCount) {
-  // your code here
+  for (let i = 0; i < producers.length; i++) {
+    if (coffeeCount >= producers[i].price / 2) {
+      producers[i].unlocked = true;
+    }
+  }
+
+ // while (coffeeCount >= data.results.properties) {
+ //   let unlockProducers = true;
+ //   }
 }
+   // loop through the producers array passed into the function
+  // for each producer, if the coffeeCount (passed in) is greater than or equal
+  // to half the producer's price, reassign the producers.unlocked property to equal true
 
 function getUnlockedProducers(data) {
-  // your code here
+    const results = data.producers.filter(producers => producers.unlocked === true);
+    // console.log (results);
+    return(results);
+
+  // // use the Array.prototype.filter() method
+  // filter through the data.producers property, and return an array with only the producers whose
+  // unlocked property is true
 }
 
 function makeDisplayNameFromId(id) {
-  // your code here
+  const removeChar = id.replaceAll('_', ' ');
+  //console.log(removeChar)
+  // want to remove All the '_' first
+  const words = removeChar.split(" ");
+  //console.log(words)
+  // want to split words into array so we can attack each word separately
+  for (let i=0; i<words.length; i++) {
+    words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+    //substr - is the string within the string
+  }
+
+  return words.join("_");
+  //lastly word is still in the array but has its first letter capitalized. We then need to string the array back together to close it. 
+  
 }
 
 // You shouldn't need to edit this function-- its tests should pass once you've written makeDisplayNameFromId
@@ -83,12 +132,39 @@ function makeProducerDiv(producer) {
 }
 
 function deleteAllChildNodes(parent) {
-  // your code here
+  while (parent.hasChildnodes()){
+    parent.removeChild(parent.firstChild);
+    //googled has to remove child nodes. Not sure how this works....
+  }
 }
 
 function renderProducers(data) {
-  // your code here
+  unlockProducers(data.producers, data.coffee);
+  const producerContainer = document.querySelector("#producer_container");
+  deleteAllChildNodes(producerContainer);
+  let unlockedProdOnly = getUnlockedProducers(data);
+  let newProducerDiv = makeProducerDiv(unlockedProdOnly);
+
+ //makeProducerContainer.append(); 
+
+ producerContainer.appendChild(newProducersDiv);
+
 }
+
+
+
+ //var render = function (bigCoffee, producer_container) {
+  //var node = document.querySelector(selector);
+  //if(!node) return;
+ // node.innerHTML = template;
+
+ 
+ //render(template, '#main');
+
+
+
+
+
 
 /**************
  *   SLICE 3
@@ -132,7 +208,6 @@ function tick(data) {
 // run the tests in Mocha. More on this later.
 // Don't worry if it's not clear exactly what's going on here.
 if (typeof process !== 'undefined') {
-  console.log('------> process here!!!!!: ', process);
   module.exports = {
     updateCoffeeView,
     clickCoffee,

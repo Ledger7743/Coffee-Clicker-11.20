@@ -52,7 +52,7 @@ We've already declared the functions in `script.js` that are being tested, but t
 ## Mocha
 
 In some of our workshops, we use a testing framework called Jasmine to define tests and another library called Testem to run those tests in the web browser. For most of our locally based projects, we'll use another popular testing framework called Mocha.
-
+npm
 Mocha allows us to write and run tests, but instead of running tests in the browser, Mocha runs them on the command line. After you clone a repository with mocha tests, you'll first need to run `npm install` to get everything set up. Then, to start the tests, run `npm test`.
 
 Mocha will _watch_ the files in your folder and restart the tests every time you save a change.
