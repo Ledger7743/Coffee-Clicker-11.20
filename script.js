@@ -103,6 +103,9 @@ function makeDisplayNameFromId(id) {
   for (let i=0; i<words.length; i++) {
     words[i] = words[i][0].toUpperCase() + words[i].substr(1);
     //substr - is the string within the string
+    const snake_case = words => {
+      return words.replace('')
+    }
   }
 
   return words.join("_");
